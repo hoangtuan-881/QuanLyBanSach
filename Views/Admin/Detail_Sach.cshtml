@@ -1,0 +1,40 @@
+﻿@model QuanLyBanSach.Models.Sach
+@{
+    ViewBag.Title = "Detail_Sach";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<div style="display: flex;">
+    <div style="flex: 1;">
+        <h4>Chi tiết sách</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt><strong>Mã sách: </strong>@Html.DisplayFor(model => model.MaSach)</dt>
+            <dt><strong>Mã danh mục: </strong>@Html.DisplayFor(model => model.DanhMuc.TenDM)</dt>
+            <dt><strong>Mã nhà xuất bản: </strong>@Html.DisplayFor(model => model.NhaXuatBan.TenNXB)</dt>
+            <dt><strong>Tên sách: </strong>@Html.DisplayFor(model => model.TenSach)</dt>
+            <dt><strong>Đối tượng: </strong>@Html.DisplayFor(model => model.DoiTuong)</dt>
+            <dt><strong>Khổ: </strong>@Html.DisplayFor(model => model.Kho)</dt>
+            <dt><strong>Số trang: </strong>@Html.DisplayFor(model => model.SoTrang)</dt>
+            <dt><strong>Trọng lượng: </strong>@Html.DisplayFor(model => model.TrongLuong)</dt>
+            <dt><strong>Định dạng: </strong>@Html.DisplayFor(model => model.DinhDang)</dt>
+            <dt><strong>Giá bán: </strong>@Html.DisplayFor(model => model.GiaBan)</dt>
+            <dt><strong>Mô tả: </strong>@Html.DisplayFor(model => model.MoTa)</dt>
+            <dt><strong>Ngày cập nhật: </strong>@Html.DisplayFor(model => model.NgayCapNhat)</dt>
+            <dt><strong>Số lượng tồn: </strong>@Html.DisplayFor(model => model.SLTon)</dt>
+        </dl>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.MaSach }) |
+            @Html.ActionLink("Trở về", "AdminIndex")
+        </p>
+    </div>
+    <div style="flex: 1;">
+        <h4>Hình ảnh sách</h4>
+        <hr />
+        <img src="~/Content/images/sach/@Model.AnhBia" alt="Hình ảnh sách" style="max-width: 100%;">
+    </div>
+</div><p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.MaSach }) |
+    @Html.ActionLink("Trở về", "AdminIndex")
+</p>
+

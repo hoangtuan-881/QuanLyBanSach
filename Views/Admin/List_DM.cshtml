@@ -1,0 +1,46 @@
+﻿@model IEnumerable<QuanLyBanSach.Models.DanhMuc>
+@{
+    ViewBag.Title = "List_DM";
+    Layout = "~/Views/Shared/admin.cshtml";
+}
+
+<h1 class="h3 mb-2 text-gray-800">Danh sách Danh mục</h1>
+<p class="mb-4">
+    @Html.ActionLink("Tạo mới", "Create_DM", "Admin")
+</p>
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary"></h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Mã Danh mục</th>
+                        <th>Tên Danh mục</th>
+                        <th>---------</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.MaDM)</td>
+                            <td>@Html.DisplayFor(modelItem => item.TenDM)</td>
+                            <td>
+                                <button onclick="window.location.href='@Url.Action("", new { id = item.MaDM })'">Edit</button>
+                                <button onclick="window.location.href='@Url.Action("", new { id = item.MaDM })'">Details</button>
+                                <button onclick="if(confirm('Bạn có chắc chắn muốn xóa không?')) { window.location.href='@Url.Action("", new { id = item.MaDM })' }">Xóa</button>
+                            </td>
+                        </tr>
+
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

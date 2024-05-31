@@ -1,0 +1,15 @@
+﻿@model List<QuanLyBanSach.Models.DanhMuc>
+
+<div class="flex-w flex-l-m filter-tope-group m-tb-10">
+    <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1">
+        <a style="color:black" href="@Url.Action("CuaHang", "Home")">Tất cả sách</a>
+
+    </button>
+    @foreach (var item in Model)
+    {
+        <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5">
+            <a style="color:black" href="@Url.Action("Sach_DM", "Home", new {@MaDM = item.MaDM })">@item.TenDM</a>
+        </button>
+    }
+</div>
+
