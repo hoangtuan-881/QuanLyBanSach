@@ -93,6 +93,20 @@ create table ChiTietDonHang
 	constraint FK_ChiTietDonHang_DonHang foreign key(MaDH) references DonHang(MaDH),
 	constraint FK_ChiTietDonHang_Sach foreign key(MaSach) references Sach(MaSach),
 );
+CREATE TABLE Role (
+    MaRole int identity(1,1) NOT NULL,
+    TenRole nvarchar(50) NOT NULL,
+    MoTa nvarchar(255),
+    CONSTRAINT PK_Role PRIMARY KEY (MaRole)
+);
+CREATE TABLE UserRole (
+    MaKH int NOT NULL,
+    MaRole int NOT NULL,
+    CONSTRAINT FK_UserRole_KhachHang FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
+    CONSTRAINT FK_UserRole_Role FOREIGN KEY (MaRole) REFERENCES Role(MaRole),
+    PRIMARY KEY (MaKH, MaRole)
+);
+
 
 INSERT INTO DanhMuc
 Values
@@ -141,6 +155,14 @@ VALUES
     (N'Ngô Thị S', '1993-01-24', N'Nữ', '0857421963', 'user18', 'password18', 'user18@example.com', N'Hà Giang','1000000018.jpg'),
     (N'Hoàng Văn T', '1988-12-05', N'Nam', '0945621738', 'user19', 'password19', 'user19@example.com', N'Hòa Bình','1000000019.jpg'),
     (N'Đào Thị U', '1997-09-14', N'Nữ', '0321547896', 'user20', 'password20', 'user20@example.com', N'Phú Thọ','1000000020.jpg');
+INSERT INTO Role (TenRole, MoTa)
+VALUES
+    (N'Admin', N'Quản lý tất cả các chức năng trong hệ thống'),
+    (N'Seller', N'Quản lý bán hàng, tạo hóa đơn, quản lý khách hàng')
+INSERT INTO UserRole (MaKH, MaRole)
+VALUES
+    (1, 1), -- Khách hàng 1 có vai trò Quản trị viên
+    (2, 2) -- Khách hàng 2 có vai trò Nhân viên bán hàng
 INSERT INTO TacGia (TenTG, DienThoai, TieuSu, DiaChi)
 VALUES
     (N'Nguyễn Như Mai', '0123456789', N'Tiểu sử của Nguyễn Như Mai', N'Địa chỉ của Nguyễn Như Mai'),

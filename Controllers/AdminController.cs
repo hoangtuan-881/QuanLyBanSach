@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using QuanLyBanSach.Models;
 using System.IO;
 using System.Data.Linq.SqlClient;
+using QuanLyBanSach.Attributes;
 
 namespace QuanLyBanSach.Controllers
 {
@@ -13,6 +14,7 @@ namespace QuanLyBanSach.Controllers
     {
         QLBanSachDataContext db = new QLBanSachDataContext();
         //---------------------Sách---------------------------------
+        [CustomAuthorize(RolesName = "Admin")]
         public ActionResult AdminIndex()
         {
             ViewBag.Title = "Trang Admin";
@@ -176,6 +178,7 @@ namespace QuanLyBanSach.Controllers
             return View(model);
         }
         //--------------------------Khách hàng----------------------------
+        [Authorize]
         public ActionResult List_KH()
         {
             var listk = db.KhachHangs.ToList();
