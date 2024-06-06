@@ -1,11 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QL_BanSach" Class="QLBanSachDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=MSI\SQLEXPRESS;Initial Catalog=QL_BanSach;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="QL_BanSachConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=DESKTOP-39HHT39;Initial Catalog=QL_BanSach;Integrated Security=True" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="QL_BanSachConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.AdminSach" Member="AdminSaches">
     <Type Name="AdminSach">
       <Column Name="MaAD" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenAD" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="TaiKhoan" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="MatKhau" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.UserRole" Member="UserRoles">
+    <Type Name="UserRole">
+      <Column Name="MaKH" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="MaRole" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Association Name="KhachHang_UserRole" Member="KhachHang" ThisKey="MaKH" OtherKey="MaKH" Type="KhachHang" IsForeignKey="true" />
+      <Association Name="Role_UserRole" Member="Role" ThisKey="MaRole" OtherKey="MaRole" Type="Role" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ChiTietDonHang" Member="ChiTietDonHangs">
@@ -55,6 +63,7 @@
       <Column Name="Email" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
       <Column Name="DiaChi" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="AnhBia" Type="System.String" DbType="Char(20)" CanBeNull="true" />
+      <Association Name="KhachHang_UserRole" Member="UserRoles" ThisKey="MaKH" OtherKey="MaKH" Type="UserRole" />
       <Association Name="KhachHang_DonHang" Member="DonHangs" ThisKey="MaKH" OtherKey="MaKH" Type="DonHang" />
     </Type>
   </Table>
@@ -65,6 +74,14 @@
       <Column Name="DiaChi" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="DienThoai" Type="System.String" DbType="Char(20)" CanBeNull="true" />
       <Association Name="NhaXuatBan_Sach" Member="Saches" ThisKey="MaNXB" OtherKey="MaNXB" Type="Sach" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Role" Member="Roles">
+    <Type Name="Role">
+      <Column Name="MaRole" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenRole" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Role_UserRole" Member="UserRoles" ThisKey="MaRole" OtherKey="MaRole" Type="UserRole" />
     </Type>
   </Table>
   <Table Name="dbo.Sach" Member="Saches">

@@ -33,6 +33,9 @@ namespace QuanLyBanSach.Models
     partial void InsertAdminSach(AdminSach instance);
     partial void UpdateAdminSach(AdminSach instance);
     partial void DeleteAdminSach(AdminSach instance);
+    partial void InsertUserRole(UserRole instance);
+    partial void UpdateUserRole(UserRole instance);
+    partial void DeleteUserRole(UserRole instance);
     partial void InsertChiTietDonHang(ChiTietDonHang instance);
     partial void UpdateChiTietDonHang(ChiTietDonHang instance);
     partial void DeleteChiTietDonHang(ChiTietDonHang instance);
@@ -51,6 +54,9 @@ namespace QuanLyBanSach.Models
     partial void InsertNhaXuatBan(NhaXuatBan instance);
     partial void UpdateNhaXuatBan(NhaXuatBan instance);
     partial void DeleteNhaXuatBan(NhaXuatBan instance);
+    partial void InsertRole(Role instance);
+    partial void UpdateRole(Role instance);
+    partial void DeleteRole(Role instance);
     partial void InsertSach(Sach instance);
     partial void UpdateSach(Sach instance);
     partial void DeleteSach(Sach instance);
@@ -94,6 +100,14 @@ namespace QuanLyBanSach.Models
 			get
 			{
 				return this.GetTable<AdminSach>();
+			}
+		}
+		
+		public System.Data.Linq.Table<UserRole> UserRoles
+		{
+			get
+			{
+				return this.GetTable<UserRole>();
 			}
 		}
 		
@@ -142,6 +156,14 @@ namespace QuanLyBanSach.Models
 			get
 			{
 				return this.GetTable<NhaXuatBan>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Role> Roles
+		{
+			get
+			{
+				return this.GetTable<Role>();
 			}
 		}
 		
@@ -271,6 +293,174 @@ namespace QuanLyBanSach.Models
 					this._MatKhau = value;
 					this.SendPropertyChanged("MatKhau");
 					this.OnMatKhauChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.UserRole")]
+	public partial class UserRole : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MaKH;
+		
+		private int _MaRole;
+		
+		private EntityRef<KhachHang> _KhachHang;
+		
+		private EntityRef<Role> _Role;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaKHChanging(int value);
+    partial void OnMaKHChanged();
+    partial void OnMaRoleChanging(int value);
+    partial void OnMaRoleChanged();
+    #endregion
+		
+		public UserRole()
+		{
+			this._KhachHang = default(EntityRef<KhachHang>);
+			this._Role = default(EntityRef<Role>);
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaKH", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int MaKH
+		{
+			get
+			{
+				return this._MaKH;
+			}
+			set
+			{
+				if ((this._MaKH != value))
+				{
+					if (this._KhachHang.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMaKHChanging(value);
+					this.SendPropertyChanging();
+					this._MaKH = value;
+					this.SendPropertyChanged("MaKH");
+					this.OnMaKHChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaRole", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int MaRole
+		{
+			get
+			{
+				return this._MaRole;
+			}
+			set
+			{
+				if ((this._MaRole != value))
+				{
+					if (this._Role.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnMaRoleChanging(value);
+					this.SendPropertyChanging();
+					this._MaRole = value;
+					this.SendPropertyChanged("MaRole");
+					this.OnMaRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="KhachHang_UserRole", Storage="_KhachHang", ThisKey="MaKH", OtherKey="MaKH", IsForeignKey=true)]
+		public KhachHang KhachHang
+		{
+			get
+			{
+				return this._KhachHang.Entity;
+			}
+			set
+			{
+				KhachHang previousValue = this._KhachHang.Entity;
+				if (((previousValue != value) 
+							|| (this._KhachHang.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._KhachHang.Entity = null;
+						previousValue.UserRoles.Remove(this);
+					}
+					this._KhachHang.Entity = value;
+					if ((value != null))
+					{
+						value.UserRoles.Add(this);
+						this._MaKH = value.MaKH;
+					}
+					else
+					{
+						this._MaKH = default(int);
+					}
+					this.SendPropertyChanged("KhachHang");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_UserRole", Storage="_Role", ThisKey="MaRole", OtherKey="MaRole", IsForeignKey=true)]
+		public Role Role
+		{
+			get
+			{
+				return this._Role.Entity;
+			}
+			set
+			{
+				Role previousValue = this._Role.Entity;
+				if (((previousValue != value) 
+							|| (this._Role.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Role.Entity = null;
+						previousValue.UserRoles.Remove(this);
+					}
+					this._Role.Entity = value;
+					if ((value != null))
+					{
+						value.UserRoles.Add(this);
+						this._MaRole = value.MaRole;
+					}
+					else
+					{
+						this._MaRole = default(int);
+					}
+					this.SendPropertyChanged("Role");
 				}
 			}
 		}
@@ -1023,6 +1213,8 @@ namespace QuanLyBanSach.Models
 		
 		private string _AnhBia;
 		
+		private EntitySet<UserRole> _UserRoles;
+		
 		private EntitySet<DonHang> _DonHangs;
 		
     #region Extensibility Method Definitions
@@ -1053,6 +1245,7 @@ namespace QuanLyBanSach.Models
 		
 		public KhachHang()
 		{
+			this._UserRoles = new EntitySet<UserRole>(new Action<UserRole>(this.attach_UserRoles), new Action<UserRole>(this.detach_UserRoles));
 			this._DonHangs = new EntitySet<DonHang>(new Action<DonHang>(this.attach_DonHangs), new Action<DonHang>(this.detach_DonHangs));
 			OnCreated();
 		}
@@ -1257,6 +1450,19 @@ namespace QuanLyBanSach.Models
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="KhachHang_UserRole", Storage="_UserRoles", ThisKey="MaKH", OtherKey="MaKH")]
+		public EntitySet<UserRole> UserRoles
+		{
+			get
+			{
+				return this._UserRoles;
+			}
+			set
+			{
+				this._UserRoles.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="KhachHang_DonHang", Storage="_DonHangs", ThisKey="MaKH", OtherKey="MaKH")]
 		public EntitySet<DonHang> DonHangs
 		{
@@ -1288,6 +1494,18 @@ namespace QuanLyBanSach.Models
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_UserRoles(UserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.KhachHang = this;
+		}
+		
+		private void detach_UserRoles(UserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.KhachHang = null;
 		}
 		
 		private void attach_DonHangs(DonHang entity)
@@ -1462,6 +1680,144 @@ namespace QuanLyBanSach.Models
 		{
 			this.SendPropertyChanging();
 			entity.NhaXuatBan = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.Role")]
+	public partial class Role : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MaRole;
+		
+		private string _TenRole;
+		
+		private string _MoTa;
+		
+		private EntitySet<UserRole> _UserRoles;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaRoleChanging(int value);
+    partial void OnMaRoleChanged();
+    partial void OnTenRoleChanging(string value);
+    partial void OnTenRoleChanged();
+    partial void OnMoTaChanging(string value);
+    partial void OnMoTaChanged();
+    #endregion
+		
+		public Role()
+		{
+			this._UserRoles = new EntitySet<UserRole>(new Action<UserRole>(this.attach_UserRoles), new Action<UserRole>(this.detach_UserRoles));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaRole", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MaRole
+		{
+			get
+			{
+				return this._MaRole;
+			}
+			set
+			{
+				if ((this._MaRole != value))
+				{
+					this.OnMaRoleChanging(value);
+					this.SendPropertyChanging();
+					this._MaRole = value;
+					this.SendPropertyChanged("MaRole");
+					this.OnMaRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenRole", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenRole
+		{
+			get
+			{
+				return this._TenRole;
+			}
+			set
+			{
+				if ((this._TenRole != value))
+				{
+					this.OnTenRoleChanging(value);
+					this.SendPropertyChanging();
+					this._TenRole = value;
+					this.SendPropertyChanged("TenRole");
+					this.OnTenRoleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MoTa", DbType="NVarChar(255)")]
+		public string MoTa
+		{
+			get
+			{
+				return this._MoTa;
+			}
+			set
+			{
+				if ((this._MoTa != value))
+				{
+					this.OnMoTaChanging(value);
+					this.SendPropertyChanging();
+					this._MoTa = value;
+					this.SendPropertyChanged("MoTa");
+					this.OnMoTaChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="Role_UserRole", Storage="_UserRoles", ThisKey="MaRole", OtherKey="MaRole")]
+		public EntitySet<UserRole> UserRoles
+		{
+			get
+			{
+				return this._UserRoles;
+			}
+			set
+			{
+				this._UserRoles.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_UserRoles(UserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Role = this;
+		}
+		
+		private void detach_UserRoles(UserRole entity)
+		{
+			this.SendPropertyChanging();
+			entity.Role = null;
 		}
 	}
 	
