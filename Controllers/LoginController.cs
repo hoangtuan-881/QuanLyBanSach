@@ -25,6 +25,7 @@ namespace QuanLyBanSach.Controllers
                 var user = db.KhachHangs.FirstOrDefault(u => u.Email == model.Email && u.MatKhau == model.Password);
                 if (user != null)
                 {
+                    Session["MaKH"] = user.MaKH;
                     // Tìm vai trò của người dùng từ bảng UserRole
                     var userRole = db.UserRoles.FirstOrDefault(r => r.MaKH == user.MaKH);
                     if (userRole != null && userRole.Role.TenRole == "Admin")

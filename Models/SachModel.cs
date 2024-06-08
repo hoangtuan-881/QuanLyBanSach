@@ -44,6 +44,23 @@ namespace QuanLyBanSach.Models
 
         public HttpPostedFileBase AnhBia { get; set; }
 
+        public SachModel(string tenSach, int soTrang, int trongLuong, string dinhDang, decimal giaBan, string moTa, DateTime ngayCapNhat, HttpPostedFileBase anhBia, int sLTon)
+        {
+            TenSach = tenSach;
+            SoTrang = soTrang;
+            TrongLuong = trongLuong;
+            DinhDang = dinhDang;
+            GiaBan = giaBan;
+            MoTa = moTa;
+            NgayCapNhat = ngayCapNhat;
+            AnhBia = anhBia;
+            SLTon = sLTon;
+        }
+
+        public SachModel()
+        {
+        }
+
         [Required]
         public int SLTon { get; set; }
     }

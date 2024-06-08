@@ -1,15 +1,12 @@
-﻿@model QuanLyBanSach.Models.LoginViewModel
-
-@{
+﻿@{
     ViewBag.Title = "Login";
     Layout = "~/Views/Shared/user.cshtml";
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Đăng Nhập</title>
+    <title>Đặt hàng thành công</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--===============================================================================================-->
@@ -29,80 +26,47 @@
     <link rel="stylesheet" type="text/css" href="~/Content/User/css/main.css">
     <!--===============================================================================================-->
     <style>
-        .login-container {
-            width: 400px;
-            margin: 100px auto;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        .success-container {
+            text-align: center;
+            padding: 40px 0;
+            background: #EBF0F5;
         }
 
-            .login-container h2 {
-                text-align: center;
+            .success-container i {
+                font-size: 100px;
+                color: #5cb85c;
                 margin-bottom: 30px;
-                color: #333;
             }
 
-            .login-container input {
-                width: 100%;
-                padding: 15px;
+            .success-container h2 {
+                color: #3c763d;
+                font-size: 24px;
+                margin-bottom: 15px;
+            }
+
+            .success-container p {
+                font-size: 18px;
+                color: #636c72;
                 margin-bottom: 20px;
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                box-sizing: border-box;
             }
 
-            .login-container button {
-                width: 100%;
-                padding: 15px;
-                border: none;
-                background-color: #5cb85c;
+            .success-container a {
+                display: inline-block;
+                padding: 10px 20px;
+                font-size: 16px;
                 color: #fff;
+                background-color: #5cb85c;
                 border-radius: 5px;
-                cursor: pointer;
-            }
-
-            .login-container .error-message {
-                color: red;
-                margin-bottom: 10px;
+                text-decoration: none;
             }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Đăng Nhập</h2>
-        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
-        {
-            @Html.AntiForgeryToken()
-
-            <div>
-                @Html.LabelFor(model => model.Email)
-                @Html.EditorFor(model => model.Email)
-                @Html.ValidationMessageFor(model => model.Email)
-            </div>
-
-            <div>
-                @Html.LabelFor(model => model.Password)
-                @Html.PasswordFor(model => model.Password)
-                @Html.ValidationMessageFor(model => model.Password)
-            </div>
-
-            <button type="submit">Đăng Nhập</button>
-            <div class="error-message">
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    @TempData["ErrorMessage"]
-                }
-            </div>
-        }
-        <p>Bạn chưa có tài khoản? <a href="@Url.Action("Register", "Login")">Đăng ký tại đây</a></p>
+    <div class="success-container">
+        <i class="zmdi zmdi-check-circle"></i>
+        <h2>Đặt hàng thành công!</h2>
+        <p>Cảm ơn bạn đã mua hàng tại cửa hàng của chúng tôi.</p>
+        <a href="@Url.Action("Index","Home")">Tiếp tục mua sắm</a>
     </div>
 </body>
 </html>
-
-
-
-
-
-

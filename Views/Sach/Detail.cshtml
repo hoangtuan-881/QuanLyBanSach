@@ -1,0 +1,96 @@
+﻿@model QuanLyBanSach.Models.Sach
+
+<div class="row">
+    <div class="col-md-6 col-lg-7 p-b-30">
+        <div class="p-l-25 p-r-30 p-lr-0-lg">
+            <div class="wrap-pic-w pos-relative">
+                <img src="~/Content/sach/@Model.AnhBia" alt="IMG-PRODUCT" style="width: 100%; height: auto;">
+                <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="~/Content/sach/@Model.AnhBia">
+                    <i class="fa fa-expand"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-5 p-b-30">
+        <div class="p-r-50 p-t-5 p-lr-0-lg">
+            <h4 class="mtext-105 cl2 js-name-detail p-b-14">
+                @Model.TenSach
+            </h4>
+            <span class="mtext-106 cl2">
+                @((int)Model.GiaBan) VND
+            </span>
+            <p class="stext-102 cl3 p-t-23">
+                @Model.MoTa
+            </p>
+            <div class="p-t-33">
+                <div class="flex-w flex-r-m p-b-10">
+                    <div class="size-204 flex-w flex-m respon6-next">
+                        <div class="wrap-num-product flex-w m-r-20 m-tb-10">
+                            <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="decrement()">
+                                <i class="fs-16 zmdi zmdi-minus"></i>
+                            </div>
+
+                            <input id="num-product" class="mtext-104 cl3 txt-center num-product" type="number" name="num-product" value="1">
+
+                            <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m" onclick="increment()">
+                                <i class="fs-16 zmdi zmdi-plus"></i>
+                            </div>
+                        </div>
+
+                        <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail" onclick="addToCart()">
+                            Add to cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function increment() {
+        var input = document.getElementById('num-product');
+        var value = parseInt(input.value, 10);
+        input.value = value + 1;
+    }
+
+    function decrement() {
+        var input = document.getElementById('num-product');
+        var value = parseInt(input.value, 10);
+        if (value > 1) {
+            input.value = value - 1;
+        }
+    }
+
+    function addToCart() {
+        // Lấy ID sản phẩm hoặc thông tin sản phẩm cần thêm vào giỏ hàng
+        var productId = @Model.MaSach; // Đây là ID sản phẩm, bạn có thể thay đổi tùy theo cách bạn lấy ID sản phẩm
+        var nameProduct = '@Html.Raw(Model.TenSach)';
+        var quantity = $('#num-product').val(); // Lấy giá trị số lượng từ input
+
+        // Gửi request AJAX đến Action trong Controller để thêm sản phẩm vào giỏ hàng
+        $.ajax({
+            url: '@Url.Action("ThemGioHangNoRedirect", "GioHang")',
+            type: 'POST',
+            data: { productId: productId, quantity: quantity },
+            success: function (response) {
+                var updatedCartCount = response.cartCount; // Điều chỉnh dựa trên cấu trúc response thực tế
+                updateCartNotification(updatedCartCount);
+
+                // Xử lý khi request thành công, nếu cần thiết
+                swal(nameProduct, "Đã được thêm vào giỏ hàng!", "success");
+            },
+            error: function(xhr, status, error) {
+                // Xử lý khi có lỗi xảy ra trong quá trình gửi request
+                console.error(error);
+            }
+        });
+    }
+
+    function updateCartNotification(count) {
+        var cartIcon = $('#cart-icon');
+        cartIcon.attr('data-notify', count);
+    }
+</script>

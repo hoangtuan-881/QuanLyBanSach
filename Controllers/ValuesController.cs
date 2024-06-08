@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace QuanLyBanSach.Controllers
 {
-    public class ValuesController : ApiController
+    public class ValuesController : SachApiController
     {
         // GET api/values
         public IEnumerable<string> Get()

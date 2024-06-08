@@ -26,5 +26,18 @@ namespace QuanLyBanSach.Models
             dDonGia = double.Parse(sach.GiaBan.ToString());
             iSoLuong = 1;
         }
+
+        public GioHang()
+        {
+        }
+
+        public GioHang(int iMaSach, string sTenSach, string sAnhBia, double dDonGia, int iSoLuong)
+        {
+            this.iMaSach = iMaSach;
+            this.sTenSach = sTenSach;
+            this.sAnhBia = sAnhBia;
+            this.dDonGia = dDonGia;
+            this.iSoLuong = iSoLuong;
+        }
     }
 }

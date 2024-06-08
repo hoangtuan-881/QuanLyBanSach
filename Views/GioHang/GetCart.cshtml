@@ -1,0 +1,113 @@
+﻿@model List<QuanLyBanSach.Models.GioHang>
+
+<div class="header-cart-content flex-w js-pscroll">
+    @if (Model.Count > 0)
+    {
+        <ul class="header-cart-wrapitem w-full" id="cart-items">
+            @foreach (var item in Model)
+            {
+                <li class="header-cart-item flex-w flex-t m-b-12" data-item-id="@item.iMaSach">
+                    <div class="header-cart-item-img" onclick="removeItemFromCart(@item.iMaSach, '@item.sTenSach')">
+                        <img src="~/Content/sach/@item.sAnhBia" alt="IMG" />
+                    </div>
+
+                    <div class="header-cart-item-txt p-t-8">
+                        <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
+                            @item.sTenSach
+                        </a>
+
+                        <span class="header-cart-item-info">
+                            @Html.Raw(item.iSoLuong) x @Html.Raw(item.dDonGia) VND
+                        </span>
+                    </div>
+                </li>
+            }
+        </ul>
+
+        <div class="w-full">
+            <div class="header-cart-total w-full p-tb-40">
+                Total: <span id="cart-total">@Model.Sum(i => i.iSoLuong * i.dDonGia)</span> VND
+            </div>
+
+            <div class="header-cart-buttons flex-w w-full">
+                <a href="@Url.Action("DatHang","GioHang")" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                    Đặt hàng
+                </a>
+
+                <a href="#" onclick="clearCart()" class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
+                    Xoá giỏ hàng
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <span class="header-cart-item-info">
+            Bạn chưa có sản phẩm nào trong giỏ hàng
+        </span>
+    }
+
+</div>
+
+<script>
+    function removeItemFromCart(productId, tenSach) {
+        $.ajax({
+            url: '@Url.Action("XoaGioHang", "GioHang")',
+            type: 'POST',
+            data: { id: productId },
+            success: function () {
+                updateCart();
+                swal(tenSach, "Đã được thêm vào giỏ hàng!", "success");
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi xoá sản phẩm!");
+            }
+        });
+    }
+    function clearCart() {
+        $.ajax({
+            url: '@Url.Action("XoaGioHangAll", "GioHang")', // Action method để xoá toàn bộ giỏ hàng
+            type: 'POST',
+            success: function (result) {
+                updateCart();
+                swal("","Bạn đã xoá hết sản phẩm trong giỏ hàng", "success");
+            },
+            error: function () {
+                alert("Có lỗi xảy ra khi xoá giỏ hàng!");
+            }
+        });
+    }
+
+    function updateCart() {
+        $.ajax({
+            url: '@Url.Action("GetCart", "GioHang")',  // URL API endpoint
+            type: 'POST',
+            success: function (response) {
+                $('#cart-content').empty(); // Clear all current HTML content
+                $('#cart-content').html(response); // Insert new content from response
+
+                $('.js-panel-cart').addClass('show-header-cart');
+
+                var notifyCount = $('#cart-icon').data('notify');
+                if (notifyCount !== undefined && notifyCount !== null) {
+                    // Get "notify" value from Session if there is no previous value
+                    $.ajax({
+                        url: '@Url.Action("GetCount", "GioHang")', // Path to action to get "notify" value from Session
+                        type: 'POST',
+                        success: function (response) {
+                            $('#cart-icon').attr('data-notify', response.cartCount);
+                            console.log("update cart: " + response.cartCount);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error("Error updating cart count: " + error);
+                        }
+                    });
+                }
+            },
+            error: function (error) {
+                alert('Error loading data: ' + error);
+            }
+        });
+    }
+
+</script>

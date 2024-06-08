@@ -191,11 +191,23 @@
 
 
 
+    var urlDetailCart = $('#urlDetailCart').val();
 
     /*==================================================================
     [ Cart ]*/
-    $('.js-show-cart').on('click',function(){
-        $('.js-panel-cart').addClass('show-header-cart');
+    $('.js-show-cart').on('click', function () {
+        $.ajax({
+            url: urlDetailCart,  // URL API endpoint
+            method: 'GET',
+            success: function (response) {
+                $('#cart-content').html(response);
+
+                $('.js-panel-cart').addClass('show-header-cart');
+            },
+            error: function (error) {
+                alert('Error loading data: ' + xhr.status + ' ' + error);
+            }
+        });
     });
 
     $('.js-hide-cart').on('click',function(){
@@ -268,9 +280,25 @@
     
     /*==================================================================
     [ Show modal1 ]*/
-    $('.js-show-modal1').on('click',function(e){
+    var urlDetailSach = $('#urlDetailSach').val();
+
+    $('.js-show-modal1').on('click', function (e) {
         e.preventDefault();
-        $('.js-modal1').addClass('show-modal1');
+        var id = $(this).data('id');
+        console.log("sach detail");
+        console.log("URL: " + urlDetailSach);
+        $.ajax({
+            url: urlDetailSach,
+            type: 'GET',
+            data: { id: id },
+            success: function (data) {
+                $('.js-modal1 .modal-content').html(data);
+                $('.js-modal1').addClass('show-modal1');
+            },
+            error: function (xhr, status, error) {
+                alert('Error loading data: ' + xhr.status + ' ' + error);
+            }
+        });
     });
 
     $('.js-hide-modal1').on('click',function(){
